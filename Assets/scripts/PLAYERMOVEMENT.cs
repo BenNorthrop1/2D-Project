@@ -9,6 +9,11 @@ public class PLAYERMOVEMENT : MonoBehaviour
     public GameObject projectile;
     bool isGrounded;
 
+    int maxHealth = 100;
+    int currentHealth;
+
+    public HealthBAR healthbar;
+
     Animator m_Animation;
 
     public float speed = 10f;
@@ -27,6 +32,8 @@ public class PLAYERMOVEMENT : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         regular = speed;
         isGrounded = false;
+        currentHealth = maxHealth;
+        healthbar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -90,26 +97,6 @@ public class PLAYERMOVEMENT : MonoBehaviour
         }
 
 
-
-
-
-
-
-
-
-
-
-
-        /* private void OnCollisionStay2D(Collision2D collision)
-         {
-             isGrounded = true;
-         }
-
-         private void OnCollisionExit2D(Collision2D collision)
-         {
-             isGrounded = false;
-         }
-        */
 
         void DoFaceLeft(bool faceleft)
         {
@@ -199,9 +186,6 @@ public class PLAYERMOVEMENT : MonoBehaviour
         }
 
 
-
-
-
         void DoFight()
         {
             if (Input.GetButtonDown("Fire1"))
@@ -211,15 +195,21 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
         }
 
-        void Health()
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        healthbar.setHealth(currentHealth);
+
+        if (currentHealth == 0)
         {
-
+            m_Animation.SetTrigger("DEATH");
         }
+    }
 
 
 
 
 
 
-    
 }

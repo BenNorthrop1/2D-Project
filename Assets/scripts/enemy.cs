@@ -12,11 +12,14 @@ public class enemy : MonoBehaviour
 
     Animator m_Animator;
 
-    public int maxHealth = 100;
-    public int currentHealth;
+    int maxHealth = 100;
+    int currentHealth;
 
-    public int currentAmmo;
+    public HealthBAR healthbar;
+
+    int currentAmmo;
     public int maxAmmo = 100;
+
 
     public float speed = 10f;
     public float regular;
@@ -32,6 +35,7 @@ public class enemy : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         currentAmmo = maxAmmo;
+        healthbar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -64,10 +68,11 @@ public class enemy : MonoBehaviour
         if (dist < -2)
         {
             velocity.x = 2;
-            m_Animator.SetTrigger("IsMoving");
+            m_Animator.SetBool("IsMoving" , true);
         }
         else
         {
+
             DoFight();
         }
 
@@ -97,7 +102,7 @@ public class enemy : MonoBehaviour
 
         if (dir == Right)       // get the player direction
         {
-            Helper.MakeBullet(projectile, transform.position.x + 1f, transform.position.y + 1, 35, 4);
+            Helper.MakeBullet(projectile, transform.position.x + 1f, transform.position.y + 1, 35, 4);  
         }
         else
         {
@@ -114,6 +119,8 @@ public class enemy : MonoBehaviour
     void TakeDamage(int damage)
     {
         currentHealth -= damage;
+
+        healthbar.setHealth(currentHealth);
 
         if (currentHealth == 0)
         {
