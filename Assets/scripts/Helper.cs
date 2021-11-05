@@ -7,6 +7,8 @@ public class Helper : MonoBehaviour
 {
     public static float playerHealth;
 
+    public static int coins;
+
 
     public static void DoFaceLeft(GameObject obj, bool faceleft)
     {

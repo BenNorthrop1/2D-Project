@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static Helper;
 
 public class coin : MonoBehaviour
 {
@@ -9,14 +10,13 @@ public class coin : MonoBehaviour
 
     public TMPro.TextMeshProUGUI CoinsUI;
 
-    public int coins = 0;
+    public Helper helper;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        coins = 0;
     }
 
     // Update is called once per frame

@@ -124,7 +124,7 @@ public class enemy : MonoBehaviour
 
         if (currentHealth == 0)
         {
-            Destroy(gameObject , 2.00f);
+            Destroy(gameObject , 1.00f);
             m_Animator.SetTrigger("DEATH");
         }
     }

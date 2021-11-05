@@ -15,4 +15,13 @@ public class DestroyPrefab : MonoBehaviour
     {
         Destroy(gameObject, 1.00f);
     }
+
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Enemy")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
