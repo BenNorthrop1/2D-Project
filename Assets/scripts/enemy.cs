@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Globals;
+using static Helper;
 
 public class enemy : MonoBehaviour
 {
@@ -17,8 +18,6 @@ public class enemy : MonoBehaviour
 
     public HealthBAR healthbar;
 
-    int currentAmmo;
-    public int maxAmmo = 100;
 
 
     public float speed = 10f;
@@ -34,7 +33,6 @@ public class enemy : MonoBehaviour
         regular = speed;
         m_Animator = GetComponent<Animator>();
         currentHealth = maxHealth;
-        currentAmmo = maxAmmo;
         healthbar.SetMaxHealth(maxHealth);
     }
 
@@ -72,7 +70,6 @@ public class enemy : MonoBehaviour
         }
         else
         {
-
             DoFight();
         }
 
@@ -87,18 +84,18 @@ public class enemy : MonoBehaviour
     }
 
 
+    
     void OnTriggerEnter2D(Collider2D other)
     {
         TakeDamage(20);
     }
 
+    
+    
+    
     void CreateProjectile()
     {
-
-
-
         int dir = Helper.GetObjectDir(gameObject);
-
 
         if (dir == Right)       // get the player direction
         {
@@ -110,12 +107,41 @@ public class enemy : MonoBehaviour
         }
     }
 
+    void DoCollisons()
+    {
+        float rayLength = 0.5f;
+
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength);
+
+        Color hitColor = Color.white;
+
+        isGrounded = false;
+
+        if (hit.collider != null)
+        {
+
+
+            if (hit.collider.tag == "Ground")
+            {
+                hitColor = Color.green;
+                isGrounded = true;
+            }
+
+
+            Debug.DrawRay(transform.position, -Vector2.up * rayLength, hitColor);
+        }
+
+    }
+
 
     void DoFight()
     {
         m_Animator.SetTrigger("Fight");
     }
 
+    
+    
     void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -128,8 +154,6 @@ public class enemy : MonoBehaviour
             m_Animator.SetTrigger("DEATH");
         }
     }
-
-
 
 
 }

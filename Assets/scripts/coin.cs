@@ -10,7 +10,7 @@ public class coin : MonoBehaviour
 
     public TMPro.TextMeshProUGUI CoinsUI;
 
-    public Helper helper;
+
 
 
 
