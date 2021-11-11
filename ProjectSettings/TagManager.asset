@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - Undefined
+  - Projectile
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
@@ -21,7 +24,7 @@ TagManager:
   - 
   - post processing
   - 
-  - 
+  - Ground
   - 
   - 
   - 

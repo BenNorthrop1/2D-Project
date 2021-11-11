@@ -73,6 +73,17 @@ public class enemy : MonoBehaviour
             DoFight();
         }
 
+        velocity.x = 0;
+        if (dist < -2)
+        {
+            velocity.x = 2;
+            m_Animator.SetBool("IsMoving", true);
+        }
+        else
+        {
+            DoFight();
+        }
+
 
         if (dist > stoppingDist)
         {
@@ -87,7 +98,13 @@ public class enemy : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        TakeDamage(20);
+        if (other.CompareTag("Projectile"))
+        {
+            TakeDamage(20);
+        }
+            
+        
+        
     }
 
     
@@ -152,6 +169,7 @@ public class enemy : MonoBehaviour
         {
             Destroy(gameObject , 1.00f);
             m_Animator.SetTrigger("DEATH");
+            
         }
     }
 

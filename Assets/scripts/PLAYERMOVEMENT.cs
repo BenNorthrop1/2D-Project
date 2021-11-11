@@ -8,6 +8,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
     private Rigidbody2D rb;
     public GameObject projectile;
     bool isGrounded;
+    public GameObject DeathScreen;
 
     int maxHealth = 100;
     int currentHealth;
@@ -34,6 +35,8 @@ public class PLAYERMOVEMENT : MonoBehaviour
         isGrounded = false;
         currentHealth = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
+        DeathScreen.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -52,10 +55,12 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
     void DoCollisons()
     {
-        float rayLength = 0.5f;
+        float rayLength = 1f;
+
 
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength);
+
 
         Color hitColor = Color.white;
 
@@ -76,9 +81,17 @@ public class PLAYERMOVEMENT : MonoBehaviour
         }
 
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("EnemyProjectile"))
+        {
+            TakeDamage(20);
+        }
+
+    }
 
 
-        void DoJump()
+    void DoJump()
         {
             Vector2 velocity = rb.velocity;
 
@@ -203,7 +216,9 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
         if (currentHealth == 0)
         {
+            
             m_Animation.SetTrigger("DEATH");
+            DeathScreen.SetActive(true);
         }
     }
 
