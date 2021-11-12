@@ -1991,7 +1991,6 @@ MonoBehaviour:
   projectile: {fileID: 479623675979842768, guid: cc41e6aacd48eb5439d7f9a6af3a7116, type: 3}
   healthbar: {fileID: 184268349}
   speed: 10
-  regular: 0
   stoppingDist: 2
   player: {fileID: 1309035859}
 --- !u!95 &386178492
@@ -3253,8 +3252,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.4366, y: -19.8732}
-  m_SizeDelta: {x: 1870.0374, y: 1003.59717}
+  m_AnchoredPosition: {x: 318.9979, y: 0.2113}
+  m_SizeDelta: {x: 3972.202, y: 2422.893}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &647127177
 MonoBehaviour:
@@ -5364,7 +5363,6 @@ MonoBehaviour:
   projectile: {fileID: 479623675979842768, guid: cc41e6aacd48eb5439d7f9a6af3a7116, type: 3}
   healthbar: {fileID: 106043025}
   speed: 10
-  regular: 0
   stoppingDist: 2
   player: {fileID: 1309035859}
 --- !u!1 &1113618678

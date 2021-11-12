@@ -53,7 +53,6 @@ public class PLAYERMOVEMENT : MonoBehaviour
         {
             Destroy(gameObject, 1.00f);
            m_Animation.SetTrigger("DEATH");
-            Destroy(rb);
         }
 
     }
@@ -147,6 +146,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
                 velocity.x = -speed;
                 m_Animation.SetBool("IsMoving", true);
             }
+            
 
             // check for moving right
             else if (Input.GetKey("d"))
