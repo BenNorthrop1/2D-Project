@@ -48,8 +48,13 @@ public class PLAYERMOVEMENT : MonoBehaviour
         DoJump();
         DoMove();
         DoFight();
-        
-        
+
+        if (currentHealth == 0)
+        {
+            Destroy(gameObject, 1.00f);
+           m_Animation.SetTrigger("DEATH");
+            Destroy(rb);
+        }
 
     }
 

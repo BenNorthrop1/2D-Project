@@ -16,49 +16,51 @@ public class enemy : MonoBehaviour
     int maxHealth = 100;
     int currentHealth;
 
-    public HealthBAR healthbar;
+    public HealthBAR healthbar; // this finds the HealthBar UI
 
 
+    public float speed = 10f; // How fast the Enemy Moves
+    private float regular; // the regular enemy speed
+    public float stoppingDist = 3f; //the stopping distance between the player
+    public GameObject player; // finds the target
 
-    public float speed = 10f;
-    public float regular;
-    public float stoppingDist = 2f;
-
-    public GameObject player;
-
-    // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>(); //gets the rigidbody component
         regular = speed;
-        m_Animator = GetComponent<Animator>();
-        currentHealth = maxHealth;
+        m_Animator = GetComponent<Animator>(); // gets the animator so you can use it in script
+        currentHealth = maxHealth; // makes it so the current health is max at the begginning 
         healthbar.SetMaxHealth(maxHealth);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float ex = transform.position.x;
-        float px = player.transform.position.x;
-        float dist = ex - px;
+        float ex = transform.position.x; //enemy position
+        float px = player.transform.position.x; //player position
+        float dist = ex - px; // distance between them
         Vector2 velocity = rb.velocity;
 
 
 
 
-        if (ex < px)
+        if (ex < px)// this checks the players postition and checks if the enemy should flip to face him
         {
 
-            Helper.DoFaceLeft(gameObject, false);
+            Helper.DoFaceLeft(gameObject, false); // makes you face right
         }
         else
         {
 
-            Helper.DoFaceLeft(gameObject, true);
+            Helper.DoFaceLeft(gameObject, true); // makes you face left
 
         }
 
+        if (currentHealth == 0)
+        {
+            Destroy(gameObject, 1.00f);
+            m_Animator.SetTrigger("DEATH");
+            velocity.x = 0;
+        }
 
         // move enemy towards player
 
@@ -66,28 +68,25 @@ public class enemy : MonoBehaviour
         if (dist < -2)
         {
             velocity.x = 2;
-            m_Animator.SetBool("IsMoving" , true);
-        }
-        else
-        {
-            DoFight();
-        }
-
-        velocity.x = 0;
-        if (dist < -2)
-        {
-            velocity.x = 2;
             m_Animator.SetBool("IsMoving", true);
         }
-        else
+       
+
+        if (dist > 2)
+        {
+            velocity.x = -2;
+            m_Animator.SetBool("IsMoving", true);
+
+        }
+        
+        if(dist >= -2 && dist <= 3)
         {
             DoFight();
         }
 
-
-        if (dist > stoppingDist)
+        if (dist > stoppingDist) // if the distance is bigger then the stopping distance
         {
-            velocity.x = -stoppingDist;
+            velocity.x = -stoppingDist; // stops the player
         }
 
 
@@ -98,13 +97,10 @@ public class enemy : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Projectile"))
+        if (other.CompareTag("Projectile")) // checks if the projectile has the correct tag
         {
-            TakeDamage(20);
-        }
-            
-        
-        
+            TakeDamage(20); // takes damage
+        } 
     }
 
     
@@ -116,11 +112,11 @@ public class enemy : MonoBehaviour
 
         if (dir == Right)       // get the player direction
         {
-            Helper.MakeBullet(projectile, transform.position.x + 1f, transform.position.y + 1, 35, 4);  
+            Helper.MakeBullet(projectile, transform.position.x + 1f, transform.position.y + 1, 50, 4);  
         }
         else
         {
-            Helper.MakeBullet(projectile, transform.position.x + 1f, transform.position.y + 1, -35, 4);
+            Helper.MakeBullet(projectile, transform.position.x + 1f, transform.position.y + 1, -50, 4);
         }
     }
 
@@ -129,7 +125,7 @@ public class enemy : MonoBehaviour
         float rayLength = 0.5f;
 
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength); // shoots an invisible ray down and checks if the sprite has the correct tag
 
         Color hitColor = Color.white;
 
@@ -137,15 +133,11 @@ public class enemy : MonoBehaviour
 
         if (hit.collider != null)
         {
-
-
-            if (hit.collider.tag == "Ground")
+            if (hit.collider.tag == "Ground") // checks if sprite has a tag named ground
             {
                 hitColor = Color.green;
-                isGrounded = true;
+                isGrounded = true; // makes the player grounded
             }
-
-
             Debug.DrawRay(transform.position, -Vector2.up * rayLength, hitColor);
         }
 
@@ -154,7 +146,7 @@ public class enemy : MonoBehaviour
 
     void DoFight()
     {
-        m_Animator.SetTrigger("Fight");
+        m_Animator.SetTrigger("Fight"); // plays the 
     }
 
     
@@ -165,12 +157,12 @@ public class enemy : MonoBehaviour
 
         healthbar.setHealth(currentHealth);
 
-        if (currentHealth == 0)
+        /*if (currentHealth == 0)
         {
             Destroy(gameObject , 1.00f);
             m_Animator.SetTrigger("DEATH");
             
-        }
+        }*/
     }
 
 
