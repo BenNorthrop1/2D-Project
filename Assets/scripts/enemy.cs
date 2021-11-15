@@ -59,7 +59,10 @@ public class enemy : MonoBehaviour
         {
             Destroy(gameObject, 1.00f);
             m_Animator.SetTrigger("DEATH");
-            velocity.x = 0;
+            GetComponent<Collider2D>().enabled = false;
+            this.enabled = false;
+            GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            Destroy(gameObject, 5.00f);
         }
 
         // move enemy towards player
