@@ -9,6 +9,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
     public GameObject projectile;
     bool isGrounded;
     public GameObject DeathScreen;
+    private BoxCollider2D coll;
 
     int maxHealth = 100;
     int currentHealth;
@@ -36,7 +37,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
         currentHealth = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
         DeathScreen.SetActive(false);
-        
+        coll = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -59,14 +60,12 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
     void DoCollisons()
     {
-        float rayLength = 1f;
 
 
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength);
+        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f);
 
-
-        Color hitColor = Color.white;
+        
 
         isGrounded = false;
 
@@ -76,12 +75,14 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
             if (hit.collider.tag == "Ground")
             {
-                hitColor = Color.green;
+                
                 isGrounded = true;
             }
-            
 
-            Debug.DrawRay(transform.position, -Vector2.up * rayLength, hitColor);
+           
+
+
+
         }
 
     }
