@@ -57,7 +57,6 @@ public class enemy : MonoBehaviour
 
         if (currentHealth == 0)
         {
-            Destroy(gameObject, 1.00f);
             m_Animator.SetTrigger("DEATH");
             GetComponent<Collider2D>().enabled = false;
             this.enabled = false;
@@ -81,6 +80,8 @@ public class enemy : MonoBehaviour
             m_Animator.SetBool("IsMoving", true);
 
         }
+
+
         
         if(dist >= -2 && dist <= 3)
         {
@@ -90,6 +91,7 @@ public class enemy : MonoBehaviour
         if (dist > stoppingDist) // if the distance is bigger then the stopping distance
         {
             velocity.x = -stoppingDist; // stops the player
+
         }
 
 
@@ -159,13 +161,6 @@ public class enemy : MonoBehaviour
         currentHealth -= damage;
 
         healthbar.setHealth(currentHealth);
-
-        /*if (currentHealth == 0)
-        {
-            Destroy(gameObject , 1.00f);
-            m_Animator.SetTrigger("DEATH");
-            
-        }*/
     }
 
 

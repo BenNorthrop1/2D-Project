@@ -7,9 +7,9 @@ public class PLAYERMOVEMENT : MonoBehaviour
 {
     private Rigidbody2D rb;
     public GameObject projectile;
-    bool isGrounded;
     public GameObject DeathScreen;
     private BoxCollider2D coll;
+    [SerializeField] LayerMask jumpableGround;
 
     int maxHealth = 100;
     int currentHealth;
@@ -21,7 +21,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
     public float speed = 10f;
     public float jumpheight = 10f;
     public float sprint = 12f;
-    public float regular;
+    float regular;
     public float stoneSpeed = 1f;
 
      
@@ -33,7 +33,6 @@ public class PLAYERMOVEMENT : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         regular = speed;
-        isGrounded = false;
         currentHealth = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
         DeathScreen.SetActive(false);
@@ -58,34 +57,27 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
     }
 
+
+
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+    }
+
+
+
     void DoCollisons()
     {
 
 
 
-        RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f);
-
         
 
-        isGrounded = false;
-
-        if (hit.collider != null)
-        {
-
-
-            if (hit.collider.tag == "Ground")
-            {
-                
-                isGrounded = true;
-            }
-
-           
-
-
-
-        }
+        
+        
 
     }
+    
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("EnemyProjectile"))
@@ -101,7 +93,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
             Vector2 velocity = rb.velocity;
 
             // check for jump
-            if (Input.GetKey("space") && isGrounded)
+            if (Input.GetKey("space") && IsGrounded())
             {
                 if (velocity.y < 0.01f)
                 {
