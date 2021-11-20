@@ -51,8 +51,9 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
         if (currentHealth == 0)
         {
-            Destroy(gameObject, 1.00f);
-           m_Animation.SetTrigger("DEATH");
+            
+            m_Animation.SetTrigger("DEATH");
+            this.enabled = false;
         }
 
     }
@@ -68,16 +69,34 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
     void DoCollisons()
     {
+        float rayLength = 0.2f;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.down , 1f);
+
+        Vector2 velocity = rb.velocity;
+
+        Color hitColor = Color.white;
+
+        if (hit.collider != null)
+        {
+
+            if (hit.collider.tag == "Enemy")
+            {
+                hitColor = Color.green;
+                rb.AddForce(transform.up * 15);
+            }
 
 
 
-        
+            Debug.DrawRay(transform.position, -Vector2.up * rayLength, hitColor);
+        }
 
-        
-        
+
+
+
 
     }
-    
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("EnemyProjectile"))

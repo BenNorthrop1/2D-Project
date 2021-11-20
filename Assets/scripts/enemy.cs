@@ -83,9 +83,13 @@ public class enemy : MonoBehaviour
 
 
         
-        if(dist >= -2 && dist <= 3)
+        if(dist <= 3 && dist >= -2)
         {
             DoFight();
+        }
+        else
+        {
+            
         }
 
         if (dist > stoppingDist) // if the distance is bigger then the stopping distance
@@ -151,7 +155,7 @@ public class enemy : MonoBehaviour
 
     void DoFight()
     {
-        m_Animator.SetTrigger("Fight"); // plays the 
+        m_Animator.SetTrigger("Fight" ); // plays the 
     }
 
     
