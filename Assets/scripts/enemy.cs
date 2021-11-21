@@ -12,6 +12,8 @@ public class enemy : MonoBehaviour
     bool isGrounded;
 
     Animator m_Animator;
+    public AudioSource Shoot;
+    public AudioSource Death;
 
     int maxHealth = 100;
     int currentHealth;
@@ -58,6 +60,7 @@ public class enemy : MonoBehaviour
         if (currentHealth == 0)
         {
             m_Animator.SetTrigger("DEATH");
+            Death.Play();
             GetComponent<Collider2D>().enabled = false;
             this.enabled = false;
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
@@ -155,7 +158,8 @@ public class enemy : MonoBehaviour
 
     void DoFight()
     {
-        m_Animator.SetTrigger("Fight" ); // plays the 
+        m_Animator.SetTrigger("Fight" );
+        Shoot.Play();
     }
 
     

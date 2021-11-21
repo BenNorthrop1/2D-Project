@@ -9,6 +9,8 @@ TagManager:
   - Undefined
   - Projectile
   - EnemyProjectile
+  - SPIKES
+  - InstantSpike
   layers:
   - Default
   - TransparentFX

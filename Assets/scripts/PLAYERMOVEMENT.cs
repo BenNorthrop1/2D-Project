@@ -11,8 +11,8 @@ public class PLAYERMOVEMENT : MonoBehaviour
     private BoxCollider2D coll;
     [SerializeField] LayerMask jumpableGround;
 
-    int maxHealth = 100;
-    int currentHealth;
+    public static int maxHealth = 100;
+    public static int currentHealth;
 
     public HealthBAR healthbar;
 
@@ -24,9 +24,12 @@ public class PLAYERMOVEMENT : MonoBehaviour
     float regular;
     public float stoneSpeed = 1f;
 
-     
-    
+    public float attackRate = 2f;
+    float nextAttackTime = 0f;
 
+    public AudioSource JumpSound;
+    public AudioSource Shoot;
+    public AudioSource Death;
 
     // Start is called before the first frame update
     void Start()
@@ -53,11 +56,11 @@ public class PLAYERMOVEMENT : MonoBehaviour
         {
             
             m_Animation.SetTrigger("DEATH");
+            Death.Play();
             this.enabled = false;
         }
 
     }
-
 
 
     private bool IsGrounded()
@@ -83,9 +86,22 @@ public class PLAYERMOVEMENT : MonoBehaviour
             if (hit.collider.tag == "Enemy")
             {
                 hitColor = Color.green;
-                rb.AddForce(transform.up * 15);
+                rb.AddForce(transform.up * 25);
+                m_Animation.SetTrigger("Jumping");
             }
 
+            if (hit.collider.tag == "SPIKES")
+            {
+               if(Time.time >= nextAttackTime)
+                {
+                    hitColor = Color.green;
+                    TakeDamage(5);
+                    m_Animation.SetTrigger("Jumping");
+                    JumpSound.Play();
+                    rb.AddForce(transform.up * 50);
+                    nextAttackTime = Time.time + 1f / attackRate;
+                }
+            }
 
 
             Debug.DrawRay(transform.position, -Vector2.up * rayLength, hitColor);
@@ -99,9 +115,20 @@ public class PLAYERMOVEMENT : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Vector2 velocity = rb.velocity;
+
+
         if (other.CompareTag("EnemyProjectile"))
         {
             TakeDamage(20);
+            
+        }
+
+
+      
+        if (other.CompareTag("InstantSpike"))
+        {
+            TakeDamage(100);
         }
 
     }
@@ -118,7 +145,8 @@ public class PLAYERMOVEMENT : MonoBehaviour
                 {
                     velocity.y = jumpheight;
                     m_Animation.SetTrigger("Jumping");
-                }
+                    JumpSound.Play();
+            }
             }
 
             rb.velocity = velocity;
@@ -140,9 +168,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
         }
 
 
-
-
-
+       
 
 
         void DoMove()
@@ -152,7 +178,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
             // stop player sliding when not pressing left or right
             velocity.x = 0;
 
-            // check for moving left
+            // check for moving lefts
             if (Input.GetKey("a"))
             {
                 velocity.x = -speed;
@@ -221,6 +247,7 @@ public class PLAYERMOVEMENT : MonoBehaviour
             if (Input.GetButtonDown("Fire1"))
             {
                 m_Animation.SetTrigger("Fight");
+                Shoot.Play();
             }
 
         }
